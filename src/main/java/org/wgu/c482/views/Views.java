@@ -21,15 +21,6 @@ public enum Views {
         this.title = title;
     }
 
-//    public URL getPath(){
-//        String FXML_DIR = Paths.get("..", "..", "..", "..", "fxml").toString();
-//        String FILE = this.fileName + ".fxml";
-//
-//        String PATH_TO_FXML_DIR = Paths.get(FXML_DIR, FILE).toString();
-//
-//        return getClass().getResource(PATH_TO_FXML_DIR);
-//    }
-
     public URL getPath(){
         Path fxmlRelPath =  Paths.get("..", "..", "..", "..", "fxml");
 

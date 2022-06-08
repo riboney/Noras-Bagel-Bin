@@ -11,6 +11,8 @@ import org.wgu.c482.models.Part;
 import org.wgu.c482.models.Product;
 import org.wgu.c482.views.Tables;
 import org.wgu.c482.views.Views;
+import org.wgu.c482.views.tables.PartTableInitializer;
+import org.wgu.c482.views.tables.ProductTableInitializer;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -50,10 +52,14 @@ public class Home implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        Tables.initPartTable(partsTable, Inventory.getAllParts());
-        Tables.initProductTable(productsTable, Inventory.getAllProducts());
+        initTables();
         initButtons();
         initSearchBars();
+    }
+
+    private void initTables(){
+        (new PartTableInitializer()).initialize(partsTable, Inventory.getAllParts());
+        (new ProductTableInitializer()).initialize(productsTable, Inventory.getAllProducts());
     }
 
     private void initButtons(){
