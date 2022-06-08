@@ -4,12 +4,12 @@ import javafx.scene.control.TextField;
 
 import java.util.function.Consumer;
 
-public class NumericTextFieldWrapper extends BaseTextFieldWrapper {
-    public NumericTextFieldWrapper(String label, TextField textField){
+public class NumericTextField extends BaseTextField {
+    public NumericTextField(String label, TextField textField){
         super(label, textField);
         Consumer<String> invalidateIfNonNumeric = content -> {
             if(!content.matches("^\\d*\\.?\\d*$")){
-                setInvalidStatus(true);
+                isInvalid(true);
                 throw new IllegalArgumentException(super.getLabel() + " must be numerical!");
             }
         };

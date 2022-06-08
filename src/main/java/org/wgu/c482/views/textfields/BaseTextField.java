@@ -11,7 +11,7 @@ import java.util.function.Consumer;
 import static org.wgu.c482.views.Borders.defaultBorder;
 import static org.wgu.c482.views.Borders.errorBorder;
 
-public class BaseTextFieldWrapper {
+public class BaseTextField {
 
     private String label;
     private TextField textField;
@@ -28,15 +28,14 @@ public class BaseTextFieldWrapper {
         validators = new ArrayList<>();
         Consumer<String> invalidateIfEmpty = content -> {
             if(content.isEmpty() || content.isBlank()){
-                setInvalidStatus(true);
+                isInvalid(true);
                 throw new IllegalArgumentException(this.label + " cannot be blank or empty!");
             }
-
         };
         validators.add(invalidateIfEmpty);
 
     }
-    public BaseTextFieldWrapper(String label, TextField textField) {
+    public BaseTextField(String label, TextField textField) {
         this.label = label;
         this.textField = textField;
         decorate();
@@ -45,7 +44,7 @@ public class BaseTextFieldWrapper {
     private void decorate(){
         this.textField.setBorder(defaultBorder);
 
-        this.textField.textProperty().addListener((obs, o, c) -> setInvalidStatus(false));
+        this.textField.textProperty().addListener((obs, o, c) -> isInvalid(false));
     }
 
     public String getLabel(){
@@ -59,7 +58,7 @@ public class BaseTextFieldWrapper {
         return invalidStatus.get();
     }
 
-    public final void setInvalidStatus(boolean isInvalid){
+    public final void isInvalid(boolean isInvalid){
         invalidStatus.set(isInvalid);
     }
 

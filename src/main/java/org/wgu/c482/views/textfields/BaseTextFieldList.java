@@ -2,29 +2,29 @@ package org.wgu.c482.views.textfields;
 
 import java.util.List;
 
-public class TextFieldWrapperList {
-    private final List<BaseTextFieldWrapper> fields;
+public class BaseTextFieldList {
+    private final List<BaseTextField> fields;
 
-    public TextFieldWrapperList(List<BaseTextFieldWrapper> fields) {
+    public BaseTextFieldList(List<BaseTextField> fields) {
         this.fields = fields;
     }
 
-    public List<BaseTextFieldWrapper> getFields() {
+    public List<BaseTextField> getFields() {
         return fields;
     }
 
     public void resetFields(){
-        this.fields.forEach(field -> field.setInvalidStatus(false));
+        this.fields.forEach(field -> field.isInvalid(false));
     }
 
     public void validateFields(){
-        this.fields.forEach(BaseTextFieldWrapper::validate);
+        this.fields.forEach(BaseTextField::validate);
     }
 
     public void invalidateField(String fieldName){
         this.fields.stream()
                 .filter(field -> field.getTextField().getId().startsWith(fieldName))
                 .findFirst()
-                .ifPresent(field -> field.setInvalidStatus(true));
+                .ifPresent(field -> field.isInvalid(true));
     }
 }

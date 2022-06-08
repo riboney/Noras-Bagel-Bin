@@ -9,10 +9,10 @@ import javafx.scene.control.*;
 import org.wgu.c482.models.Inventory;
 import org.wgu.c482.models.Part;
 import org.wgu.c482.models.Product;
-import org.wgu.c482.views.Tables;
 import org.wgu.c482.views.Views;
-import org.wgu.c482.views.tables.PartTableInitializer;
-import org.wgu.c482.views.tables.ProductTableInitializer;
+import org.wgu.c482.views.tables.PartTable;
+import org.wgu.c482.views.tables.PartTableWrapperBuilder;
+import org.wgu.c482.views.tables.TableButton;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -20,7 +20,6 @@ import java.util.function.Consumer;
 import java.util.function.Function;
 
 import static org.wgu.c482.models.Inventory.getAllProducts;
-import static org.wgu.c482.utils.FXUtils.Table.*;
 import static org.wgu.c482.models.Inventory.getAllParts;
 import static org.wgu.c482.utils.FXLoaderUtils.*;
 import static org.wgu.c482.utils.FXUtils.TextInput.onEnterTableLookup;
@@ -58,20 +57,112 @@ public class Home implements Initializable {
     }
 
     private void initTables(){
-        (new PartTableInitializer()).initialize(partsTable, Inventory.getAllParts());
+        (new PartTableWrapperBuilder().createPartTableWrapper()).initialize(partsTable, Inventory.getAllParts());
         (new ProductTableInitializer()).initialize(productsTable, Inventory.getAllProducts());
+
+        new PartTable.Decorator()
+                .setTable(partsTable)
+                .setTableItems(Inventory.getAllParts())
+                .setSearchField(partSearch)
+                .setQueryAlgo()
     }
 
     private void initButtons(){
         this.exitButton.setOnAction(event -> Platform.exit());
-        this.partsAddButton.setOnAction(goToPartAddForm);
-        this.partsModifyButton.setOnAction(tableButtonAction(goToPartModifyForm, partsTable));
-        this.partsDeleteButton.setOnAction(tableButtonAction(confirmThenDeletePart, partsTable));
 
-        this.productsAddButton.setOnAction(goToProductAddForm);
-        this.productsModifyButton.setOnAction(tableButtonAction(goToProductModifyForm, productsTable));
-        this.productsDeleteButton.setOnAction(tableButtonAction(confirmThenDeleteProduct, productsTable));
+        Function<ActionEvent, Consumer<Part>> goToPartAddForm = event -> part -> switchToView(Views.ADD_PART, Views.ADD_PART.getTitle(), event);
+        new TableButton.Decorator<Part>()
+                .setButton(partsAddButton)
+                .setTable(partsTable)
+                .setButtonAction(goToPartAddForm)
+                .decorate();
+
+        Function<ActionEvent, Consumer<Part>> goToPartModifyForm = event -> part -> {
+            PartModifyForm controller = new PartModifyForm(part, partsTable.getSelectionModel().getSelectedIndex());
+            String title = String.join(" ", Views.MODIFY_PART.getTitle(), part.getName());
+            switchToView(Views.MODIFY_PART, title, event, controller);
+        };
+        new TableButton.Decorator<Part>()
+                .setButton(partsModifyButton)
+                .setTable(partsTable)
+                .setButtonAction(goToPartModifyForm)
+                .decorate();
+
+        Function<ActionEvent, Consumer<Part>> confirmThenDeletePart = event -> part -> {
+            String title = "Parts Table";
+            String header = "Delete: " + part.getName();
+            String content = "Do you want to delete this part?";
+            boolean confirmDelete = showConfirmDialog(title, header, content);
+            if(confirmDelete) PartUtils.deleteFromParts(part);
+        };
+        new TableButton.Decorator<Part>()
+                .setButton(partsDeleteButton)
+                .setTable(partsTable)
+                .setButtonAction(confirmThenDeletePart)
+                .decorate();
+
+        Function<ActionEvent, Consumer<Product>> goToProductAddForm = event -> product -> switchToView(Views.ADD_PART, Views.ADD_PART.getTitle(), event);
+        new TableButton.Decorator<Product>()
+                .setButton(partsAddButton)
+                .setTable(productsTable)
+                .setButtonAction(goToProductAddForm)
+                .decorate();
+
+        Function<ActionEvent, Consumer<Product>> goToProductModifyForm = event -> product -> {
+            ProductModifyForm controller = new ProductModifyForm(product, productsTable.getSelectionModel().getSelectedIndex());
+            String title = String.join(" ", Views.MODIFY_PART.getTitle(), product.getName());
+            switchToView(Views.MODIFY_PART, title, event, controller);
+        };
+        new TableButton.Decorator<Product>()
+                .setButton(partsModifyButton)
+                .setTable(productsTable)
+                .setButtonAction(goToProductModifyForm)
+                .decorate();
+
+        Function<ActionEvent, Consumer<Product>> confirmThenDeleteProduct = event -> product -> {
+            String title = "Parts Table";
+            String header = "Delete: " + product.getName();
+            String content = "Do you want to delete this part?";
+            boolean confirmDelete = showConfirmDialog(title, header, content);
+            if(confirmDelete) ProductUtils.deleteFromProducts(product);
+        };
+        new TableButton.Decorator<Product>()
+                .setButton(productsDeleteButton)
+                .setTable(productsTable)
+                .setButtonAction(confirmThenDeleteProduct)
+                .decorate();
     }
+//        List<TableButton<Part>> partTableButtons = List.of(
+//                new TableButton<>(partsAddButton, partsTable, event -> part -> switchToView(Views.ADD_PART, Views.ADD_PART.getTitle(), event)),
+//                new TableButton<>(partsModifyButton, partsTable, event -> part -> {
+//                    PartModifyForm controller = new PartModifyForm(part, partsTable.getSelectionModel().getSelectedIndex());
+//                    String title = String.join(" ", Views.MODIFY_PART.getTitle(), part.getName());
+//
+//                    switchToView(Views.MODIFY_PART, title, event, controller);)
+//        )
+
+
+//    private void initButtons(){
+//        this.exitButton.setOnAction(event -> Platform.exit());
+//        this.partsAddButton.setOnAction(goToPartAddForm);
+//        this.partsModifyButton.setOnAction(tableButtonAction(goToPartModifyForm, partsTable));
+//        this.partsDeleteButton.setOnAction(tableButtonAction(confirmThenDeletePart, partsTable));
+//
+//        this.productsAddButton.setOnAction(goToProductAddForm);
+//        this.productsModifyButton.setOnAction(tableButtonAction(goToProductModifyForm, productsTable));
+//        this.productsDeleteButton.setOnAction(tableButtonAction(confirmThenDeleteProduct, productsTable));
+//    }
+
+//    private void initButtons(){
+//        this.exitButton.setOnAction(event -> Platform.exit());
+//        this.partsAddButton.setOnAction(goToPartAddForm);
+//        this.partsModifyButton.setOnAction(tableButtonAction(goToPartModifyForm, partsTable));
+//        this.partsDeleteButton.setOnAction(tableButtonAction(confirmThenDeletePart, partsTable));
+//
+//        this.productsAddButton.setOnAction(goToProductAddForm);
+//        this.productsModifyButton.setOnAction(tableButtonAction(goToProductModifyForm, productsTable));
+//        this.productsDeleteButton.setOnAction(tableButtonAction(confirmThenDeleteProduct, productsTable));
+//    }
 
     private void initSearchBars(){
         partSearch.setOnKeyPressed(onEnterTableLookup(partsTable, partSearch, PartUtils::searchPart, getAllParts()));
@@ -104,7 +195,6 @@ public class Home implements Initializable {
 //    };
 
     private final Function<ActionEvent, Consumer<Product>> goToProductModifyForm = event -> product -> {
-        System.out.println(product);
         ProductModifyForm controller = new ProductModifyForm(product, productsTable.getSelectionModel().getSelectedIndex());
         String title = String.join(" ", Views.MODIFY_PRODUCT.getTitle(), product.getName());
 

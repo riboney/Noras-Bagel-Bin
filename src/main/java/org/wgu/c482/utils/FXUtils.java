@@ -94,61 +94,63 @@ public class FXUtils {
 
         public final static Runnable tableItemNotSelectedErr = () -> invalidActionDialog("No table item selected.");
 
-        public static void registerTableEventHandlers(Stage stage){
-            stage.addEventHandler(WindowEvent.WINDOW_SHOWING, windowEvent -> {
-                Scene currentScene = ((Stage) windowEvent.getSource()).getScene();
-                Parent parent = currentScene.getRoot();
-                currentScene.addEventFilter(MouseEvent.MOUSE_CLICKED, deselectRowItem(parent));
-            });
-        }
-
-        // src: https://stackoverflow.com/a/41908580/12369650
-        private static javafx.event.EventHandler<MouseEvent> deselectRowItem(Parent parent) {
-
-            return event -> {
-                List<TableView> tables = getAllTables(parent);
-                if(tables.isEmpty()) return;
-
-                Node currentNode = event.getPickResult().getIntersectedNode();
-
-                // move up through the node hierarchy until a TableRow or scene root is found
-                while(currentNode != null && !(currentNode instanceof TableRow)) {
-                    currentNode = currentNode.getParent();
-                }
-
-                Consumer<TableView> clearAllSelectedRows = table -> table.getSelectionModel().clearSelection();
-
-                if(!(currentNode instanceof TableRow)) {
-                    tables.forEach(clearAllSelectedRows);
-                } else {
-                    TableRow clickedRow = (TableRow) currentNode;
-                    TableView clickedTable = clickedRow.getTableView();
-
-                    if(clickedRow.isEmpty())
-                        tables.forEach(clearAllSelectedRows);
-                    else
-                        tables.stream().filter(table -> !table.equals(clickedTable)).forEach(clearAllSelectedRows);
-                }
-            };
-        }
-
-        private static List<TableView> getAllTables(Parent parent){
-            List<Node> nodes = new ArrayList<>();
-            getAllNodes(parent, nodes);
-
-            return nodes.stream()
-                    .filter(node -> node instanceof TableView)
-                    .map(node -> (TableView) node)
-                    .collect(Collectors.toList());
-        }
-
-        // src: https://stackoverflow.com/a/24986845/12369650
-        private static void getAllNodes(Parent parent, List<Node> nodes){
-            for(Node node: parent.getChildrenUnmodifiable()){
-                nodes.add(node);
-                if (node instanceof Parent)
-                    getAllNodes((Parent)node, nodes);
-            }
-        }
     }
 }
+
+
+//        public static void registerTableEventHandlers(Stage stage){
+//            stage.addEventHandler(WindowEvent.WINDOW_SHOWING, windowEvent -> {
+//                Scene currentScene = ((Stage) windowEvent.getSource()).getScene();
+//                Parent parent = currentScene.getRoot();
+//                currentScene.addEventFilter(MouseEvent.MOUSE_CLICKED, deselectRowItem(parent));
+//            });
+//        }
+
+// src: https://stackoverflow.com/a/41908580/12369650
+//        private static javafx.event.EventHandler<MouseEvent> deselectRowItem(Parent parent) {
+//
+//            return event -> {
+//                List<TableView> tables = getAllTables(parent);
+//                if(tables.isEmpty()) return;
+//
+//                Node currentNode = event.getPickResult().getIntersectedNode();
+//
+//                // move up through the node hierarchy until a TableRow or scene root is found
+//                while(currentNode != null && !(currentNode instanceof TableRow)) {
+//                    currentNode = currentNode.getParent();
+//                }
+//
+//                Consumer<TableView> clearAllSelectedRows = table -> table.getSelectionModel().clearSelection();
+//
+//                if(!(currentNode instanceof TableRow)) {
+//                    tables.forEach(clearAllSelectedRows);
+//                } else {
+//                    TableRow clickedRow = (TableRow) currentNode;
+//                    TableView clickedTable = clickedRow.getTableView();
+//
+//                    if(clickedRow.isEmpty())
+//                        tables.forEach(clearAllSelectedRows);
+//                    else
+//                        tables.stream().filter(table -> !table.equals(clickedTable)).forEach(clearAllSelectedRows);
+//                }
+//            };
+//        }
+//
+//        private static List<TableView> getAllTables(Parent parent){
+//            List<Node> nodes = new ArrayList<>();
+//            getAllNodes(parent, nodes);
+//
+//            return nodes.stream()
+//                    .filter(node -> node instanceof TableView)
+//                    .map(node -> (TableView) node)
+//                    .collect(Collectors.toList());
+//        }
+//
+//        // src: https://stackoverflow.com/a/24986845/12369650
+//        private static void getAllNodes(Parent parent, List<Node> nodes){
+//            for(Node node: parent.getChildrenUnmodifiable()){
+//                nodes.add(node);
+//                if (node instanceof Parent)
+//                    getAllNodes((Parent)node, nodes);
+//            }
+//        }

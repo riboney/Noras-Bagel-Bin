@@ -6,9 +6,9 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
-import org.wgu.c482.views.textfields.BaseTextFieldWrapper;
-import org.wgu.c482.views.textfields.NumericTextFieldWrapper;
-import org.wgu.c482.views.textfields.TextFieldWrapperList;
+import org.wgu.c482.views.textfields.BaseTextField;
+import org.wgu.c482.views.textfields.NumericTextField;
+import org.wgu.c482.views.textfields.BaseTextFieldList;
 
 import java.net.URL;
 import java.util.*;
@@ -36,14 +36,14 @@ public abstract class PartForm implements Initializable {
     @FXML Button saveButton;
     @FXML Button cancelButton;
 
-    protected BaseTextFieldWrapper name;
-    protected BaseTextFieldWrapper companyName;
-    protected NumericTextFieldWrapper stock;
-    protected NumericTextFieldWrapper price;
-    protected NumericTextFieldWrapper max;
-    protected NumericTextFieldWrapper min;
-    protected NumericTextFieldWrapper machineId;
-    protected TextFieldWrapperList allFields;
+    protected BaseTextField name;
+    protected BaseTextField companyName;
+    protected NumericTextField stock;
+    protected NumericTextField price;
+    protected NumericTextField max;
+    protected NumericTextField min;
+    protected NumericTextField machineId;
+    protected BaseTextFieldList allFields;
 
     protected ToggleGroup partsGroup = new ToggleGroup();
 
@@ -58,17 +58,17 @@ public abstract class PartForm implements Initializable {
     }
 
     private void initTextFields(){
-         name = new BaseTextFieldWrapper(nameLabel.getText(), nameField);
-         stock = new NumericTextFieldWrapper(stockLabel.getText(), stockField);
-         price = new NumericTextFieldWrapper(priceLabel.getText(), priceField);
-         max = new NumericTextFieldWrapper(maxLabel.getText(), maxField);
-         min = new NumericTextFieldWrapper(minLabel.getText(), minField);
+         name = new BaseTextField(nameLabel.getText(), nameField);
+         stock = new NumericTextField(stockLabel.getText(), stockField);
+         price = new NumericTextField(priceLabel.getText(), priceField);
+         max = new NumericTextField(maxLabel.getText(), maxField);
+         min = new NumericTextField(minLabel.getText(), minField);
 
-         companyName = new BaseTextFieldWrapper(OUTSOURCED, machineCompanyField);
-         machineId = new NumericTextFieldWrapper(INHOUSE, machineCompanyField);
-         ArrayList<BaseTextFieldWrapper> list = new ArrayList<>(Arrays.asList(name, stock, price, max, min));
+         companyName = new BaseTextField(OUTSOURCED, machineCompanyField);
+         machineId = new NumericTextField(INHOUSE, machineCompanyField);
+         ArrayList<BaseTextField> list = new ArrayList<>(Arrays.asList(name, stock, price, max, min));
 
-         allFields = new TextFieldWrapperList(list);
+         allFields = new BaseTextFieldList(list);
     }
 
     public void initRadioButtons(){
