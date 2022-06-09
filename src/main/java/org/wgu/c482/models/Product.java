@@ -20,9 +20,9 @@ public class Product {
         this.id = id;
         this.setName(name);
         this.setPrice(price);
-        this.setStock(stock);
         this.setMax(max);
         this.setMin(min);
+        this.setStock(stock);
     }
 
     public void addAssociatedParts(Part part) {
@@ -73,7 +73,9 @@ public class Product {
 
     public void setStock(int stock) {
         if(stock < 0)
-            throw new IllegalArgumentException("Stock " + BELOW_ZERO_ERR_MSG);
+            throw new IllegalArgumentException("Inv " + BELOW_ZERO_ERR_MSG);
+        else if(stock > max || stock < min)
+            throw new IllegalArgumentException("Inv must be between Min and Max!");
 
         this.stock = stock;
     }
@@ -83,7 +85,7 @@ public class Product {
     }
 
     public void setMin(int min) {
-        String invalidMinMsg = "Min cannot be higher than current max!";
+        String invalidMinMsg = "Min cannot be higher than max!";
 
         if(min < 0)
             throw new IllegalArgumentException("Min " + BELOW_ZERO_ERR_MSG);
@@ -97,7 +99,7 @@ public class Product {
     }
 
     public void setMax(int max) {
-        String invalidMaxMsg = "Max cannot be lower than current min!";
+        String invalidMaxMsg = "Max cannot be lower than min!";
 
         if(max < 0)
             throw new IllegalArgumentException("Max " + BELOW_ZERO_ERR_MSG);

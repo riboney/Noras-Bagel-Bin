@@ -21,10 +21,9 @@ import java.util.ResourceBundle;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
-import static org.wgu.c482.services.PartService.deleteFromParts;
-import static org.wgu.c482.services.ProductService.deleteFromProducts;
 import static org.wgu.c482.utils.FXUtils.*;
 import static org.wgu.c482.views.Dialogs.showConfirmDialog;
+import static org.wgu.c482.views.Dialogs.showErrorDialog;
 
 
 public class Home implements Initializable {
@@ -74,69 +73,78 @@ public class Home implements Initializable {
     }
 
     private void initPartTableButtons(){
-        EventHandler<ActionEvent> addPart = event -> switchToView(Scenes.ADD_PART, Scenes.ADD_PART.getTitle(), event);
-        new TableButton.Decorator<Part>()
+        EventHandler<ActionEvent> addPartAction = event -> switchToView(Scenes.ADD_PART, Scenes.ADD_PART.getTitle(), event);
+        var addPart = new TableButton.Decorator<Part>()
                 .setButton(partsAddButton)
                 .setTable(partsTable)
-                .setOnAction(addPart)
+                .setOnAction(addPartAction)
                 .decorate();
 
-        Function<ActionEvent, Consumer<Part>> modifyPart = event -> part -> {
+        Function<ActionEvent, Consumer<Part>> modifyPartAction = event -> part -> {
             PartModifyForm controller = new PartModifyForm(part, partsTable.getSelectionModel().getSelectedIndex());
             String title = String.join(" ", Scenes.MODIFY_PART.getTitle(), part.getName());
             switchToView(Scenes.MODIFY_PART, title, event, controller);
         };
-        new TableButton.Decorator<Part>()
+        var modifyPart = new TableButton.Decorator<Part>()
                 .setButton(partsModifyButton)
                 .setTable(partsTable)
-                .setOnSelectedItemAction(modifyPart)
+                .setOnSelectedItemAction(modifyPartAction)
                 .decorate();
 
-        Function<ActionEvent, Consumer<Part>> deletePart = event -> part -> {
+        Function<ActionEvent, Consumer<Part>> deletePartAction = event -> part -> {
             String title = "Parts Table";
             String header = "Delete: " + part.getName();
             String content = "Do you want to delete this part?";
             boolean confirmDelete = showConfirmDialog(title, header, content);
-            if(confirmDelete) deleteFromParts(part);
+            if(confirmDelete) Inventory.deletePart(part);
         };
-        new TableButton.Decorator<Part>()
+        var deletePart = new TableButton.Decorator<Part>()
                 .setButton(partsDeleteButton)
                 .setTable(partsTable)
-                .setOnSelectedItemAction(deletePart)
+                .setOnSelectedItemAction(deletePartAction)
                 .decorate();
     }
 
     private void initProductTableButtons(){
-        EventHandler<ActionEvent> addProduct = event -> switchToView(Scenes.ADD_PRODUCT, Scenes.ADD_PRODUCT.getTitle(), event);
-        new TableButton.Decorator<Product>()
+        EventHandler<ActionEvent> addProductAction = event -> switchToView(Scenes.ADD_PRODUCT, Scenes.ADD_PRODUCT.getTitle(), event);
+        var addProduct = new TableButton.Decorator<Product>()
                 .setButton(productsAddButton)
                 .setTable(productsTable)
-                .setOnAction(addProduct)
+                .setOnAction(addProductAction)
                 .decorate();
 
-        Function<ActionEvent, Consumer<Product>> modifyProduct = event -> product -> {
+        Function<ActionEvent, Consumer<Product>> modifyProductAction = event -> product -> {
             ProductModifyForm controller = new ProductModifyForm(product, productsTable.getSelectionModel().getSelectedIndex());
             String title = String.join(" ", Scenes.MODIFY_PRODUCT.getTitle(), product.getName());
             switchToView(Scenes.MODIFY_PRODUCT, title, event, controller);
         };
-        new TableButton.Decorator<Product>()
+        var modifyProduct =  new TableButton.Decorator<Product>()
                 .setButton(productsModifyButton)
                 .setTable(productsTable)
-                .setOnSelectedItemAction(modifyProduct)
+                .setOnSelectedItemAction(modifyProductAction)
                 .decorate();
 
-        Function<ActionEvent, Consumer<Product>> deleteProduct = event -> product -> {
+        Function<ActionEvent, Consumer<Product>> deleteProductAction = event -> product -> {
             String title = "Parts Table";
             String header = "Delete: " + product.getName();
             String content = "Do you want to delete this part?";
             boolean confirmDelete = showConfirmDialog(title, header, content);
-            if(confirmDelete) deleteFromProducts(product);
+
+            if(confirmDelete) {
+                if(product.getAllAssociatedParts().isEmpty())
+                    Inventory.deleteProduct(product);
+                else{
+                    title = "Error!";
+                    header = "Can not delete product " + product.getName();
+                    content = product.getName() + " has associated parts! Please remove these parts before deleting the product";
+                    showErrorDialog(title, header, content);
+                }
+            }
         };
-        new TableButton.Decorator<Product>()
+        var deleteProduct = new TableButton.Decorator<Product>()
                 .setButton(productsDeleteButton)
                 .setTable(productsTable)
-                .setOnSelectedItemAction(deleteProduct)
+                .setOnSelectedItemAction(deleteProductAction)
                 .decorate();
-
     }
 }

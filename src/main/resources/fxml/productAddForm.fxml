@@ -23,9 +23,9 @@
       </BorderPane>
       <BorderPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="607.0" prefWidth="1006.0" style="-fx-background-color: #002a52; -fx-background-radius: 10px; -fx-background-insets: 1;">
          <left>
-            <VBox prefHeight="200.0" prefWidth="500.0" BorderPane.alignment="CENTER">
+            <VBox alignment="CENTER" prefHeight="200.0" prefWidth="500.0" BorderPane.alignment="CENTER">
                <children>
-                  <GridPane hgap="10.0" prefHeight="255.0" prefWidth="443.0" vgap="10.0">
+                  <GridPane hgap="10.0" prefHeight="559.0" prefWidth="500.0" vgap="10.0">
                     <columnConstraints>
                       <ColumnConstraints halignment="RIGHT" hgrow="SOMETIMES" maxWidth="81.0" minWidth="24.0" prefWidth="44.0" />
                       <ColumnConstraints fillWidth="false" hgrow="SOMETIMES" maxWidth="217.0" minWidth="10.0" prefWidth="177.0" />

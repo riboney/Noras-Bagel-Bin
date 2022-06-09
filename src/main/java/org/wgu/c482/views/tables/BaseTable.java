@@ -6,9 +6,12 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import org.wgu.c482.models.Part;
 import org.wgu.c482.views.textfields.BaseTextField;
 
 import java.util.function.Function;
+
+import static org.wgu.c482.utils.InvUtils.isInteger;
 
 public abstract class BaseTable<T> {
     protected final TableView<T> table;
@@ -40,14 +43,24 @@ public abstract class BaseTable<T> {
             if(keyEvent.getCode().equals(KeyCode.ENTER)){
                 if(queryIsEmpty)
                     resetSearch();
-                else if(queryResults.isEmpty())
-                    failSearch();
-                else
+                else if(isInteger(query) && !queryResults.isEmpty())
+                    highlightSearch(queryResults.get(0));
+                else if(!queryResults.isEmpty())
                     displaySearch(queryResults);
+                else
+                    failSearch();
             }
         };
 
         tableSearch.getTextField().setOnKeyPressed(populateWithSearchResultsOnEnter);
+    }
+
+    private void highlightSearch(T idMatchedItem){
+        tableSearch.isInvalid(false);
+        table.setItems(tableItems);
+        table.getSelectionModel().select(idMatchedItem);
+        int selectedRowIndex = table.getSelectionModel().getSelectedIndex();
+        table.scrollTo(selectedRowIndex);
     }
 
     private void resetSearch(){

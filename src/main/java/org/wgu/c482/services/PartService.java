@@ -11,6 +11,7 @@ import org.wgu.c482.utils.InvUtils;
 import java.util.List;
 import java.util.Optional;
 
+import static org.wgu.c482.Main.nextPartId;
 import static org.wgu.c482.models.Inventory.getAllParts;
 import static org.wgu.c482.utils.InvUtils.findAnyByCondition;
 import static org.wgu.c482.utils.InvUtils.isInteger;
@@ -40,17 +41,6 @@ public class PartService {
 
     private static List<Part> filterPartsByName(String query){
         return findAnyByCondition(getAllParts(), p -> p.getName().toLowerCase().startsWith(query));
-    }
-
-    public static void deleteFromParts(Part part) {
-        if(Inventory.getAllParts().contains(part)){
-            Inventory.deletePart(part);
-
-            Inventory.getAllParts().stream()
-                    .filter(p -> p.getId() > part.getId())
-                    .forEach(p -> p.setId(p.getId() - 1));
-
-        }
     }
 
     public static class Builder{
@@ -110,16 +100,10 @@ public class PartService {
             return this;
         }
 
-        private int autogenPartId() {
-            int numOfParts = Inventory.getAllParts().size();
-            int indexOfLastPart = numOfParts - 1;
-
-            return Inventory.getAllParts().get(indexOfLastPart).getId() + 1;
-        }
-
         public Part build(){
             if(this.id == null){
-                this.id = autogenPartId();
+                this.id = nextPartId;
+                nextPartId++;
             }
 
             if(this.machineId == null)

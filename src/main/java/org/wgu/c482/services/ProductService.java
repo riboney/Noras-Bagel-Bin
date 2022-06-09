@@ -8,6 +8,7 @@ import org.wgu.c482.models.Product;
 import java.util.List;
 import java.util.Optional;
 
+import static org.wgu.c482.Main.nextProductId;
 import static org.wgu.c482.models.Inventory.getAllProducts;
 import static org.wgu.c482.utils.InvUtils.findAnyByCondition;
 import static org.wgu.c482.utils.InvUtils.isInteger;
@@ -36,17 +37,6 @@ public class ProductService {
 
     private static List<Product> filterProductsByName(String query){
         return findAnyByCondition(getAllProducts(), p -> p.getName().toLowerCase().startsWith(query));
-    }
-
-    public static void deleteFromProducts(Product product) {
-        if(Inventory.getAllProducts().contains(product)){
-            Inventory.deleteProduct(product);
-
-            Inventory.getAllProducts().stream()
-                    .filter(p -> p.getId() > product.getId())
-                    .forEach(p -> p.setId(p.getId() - 1));
-
-        }
     }
 
     public static class Builder{
@@ -87,16 +77,10 @@ public class ProductService {
             return this;
         }
 
-        private static int autogenProductId() {
-            int numOfParts = Inventory.getAllProducts().size();
-            int indexOfLastPart = numOfParts - 1;
-
-            return Inventory.getAllProducts().get(indexOfLastPart).getId() + 1;
-        }
-
         public Product build(){
             if(this.id == null){
-                this.id = autogenProductId();
+                this.id = nextProductId;
+                nextProductId++;
             }
 
             return new Product(id, name, price, stock ,min, max);
