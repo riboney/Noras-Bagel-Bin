@@ -6,6 +6,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import org.wgu.c482.models.Part;
 import org.wgu.c482.views.textfields.BaseTextField;
 
 import java.util.List;
@@ -14,15 +15,17 @@ import java.util.function.Function;
 public abstract class BaseTable<T> {
     protected final TableView<T> table;
     protected final ObservableList<T> tableItems;
-    protected final BaseTextField tableSearch;
+    protected BaseTextField tableSearch;
     protected BaseTable(TableView<T> table, ObservableList<T> tableItems, TextField searchField, Function<String, ObservableList<T>> queryAlgo) {
         this.table = table;
         this.tableItems = tableItems;
         table.setItems(tableItems);
         initTableColumns();
 
-        this.tableSearch = new BaseTextField("Table search", searchField);
-        setSearchAlgo(queryAlgo);
+        if(searchField != null){
+            this.tableSearch = new BaseTextField("Table search", searchField);
+            setSearchAlgo(queryAlgo);
+        }
     }
 
     public TableView<T> getTable(){
@@ -62,5 +65,36 @@ public abstract class BaseTable<T> {
     private void displaySearch(ObservableList<T> results){
         tableSearch.isInvalid(false);
         table.setItems(results);
+    }
+
+    public static class Decorator<T> {
+        protected TableView<T> table;
+        protected ObservableList<T> tableItems;
+        protected TextField searchField;
+        protected Function<String, ObservableList<T>> queryAlgo;
+
+        public Decorator<T> setTable(TableView<T> table) {
+            this.table = table;
+            return this;
+        }
+
+        public Decorator<T> setTableItems(ObservableList<T> tableItems) {
+            this.tableItems = tableItems;
+            return this;
+        }
+
+        public Decorator<T> setSearchField(TextField searchField) {
+            this.searchField = searchField;
+            return this;
+        }
+
+        public Decorator<T> setQueryAlgo(Function<String, ObservableList<T>> queryAlgo) {
+            this.queryAlgo = queryAlgo;
+            return this;
+        }
+
+        public BaseTable<T> decorate() {
+           return null;
+        }
     }
 }

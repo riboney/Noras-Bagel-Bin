@@ -11,7 +11,7 @@ import org.wgu.c482.models.Part;
 import org.wgu.c482.models.Product;
 import org.wgu.c482.views.Views;
 import org.wgu.c482.views.tables.PartTable;
-import org.wgu.c482.views.tables.PartTableWrapperBuilder;
+import org.wgu.c482.views.tables.ProductTable;
 import org.wgu.c482.views.tables.TableButton;
 
 import java.net.URL;
@@ -53,28 +53,36 @@ public class Home implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         initTables();
         initButtons();
-        initSearchBars();
+//        initSearchBars();
     }
 
     private void initTables(){
-        (new PartTableWrapperBuilder().createPartTableWrapper()).initialize(partsTable, Inventory.getAllParts());
-        (new ProductTableInitializer()).initialize(productsTable, Inventory.getAllProducts());
+//        (new PartTableWrapperBuilder().createPartTableWrapper()).initialize(partsTable, Inventory.getAllParts());
+//        (new ProductTableInitializer()).initialize(productsTable, Inventory.getAllProducts());
 
         new PartTable.Decorator()
                 .setTable(partsTable)
                 .setTableItems(Inventory.getAllParts())
                 .setSearchField(partSearch)
-                .setQueryAlgo()
+                .setQueryAlgo(PartUtils::searchPart)
+                .decorate();
+
+        new ProductTable.Decorator()
+                .setTable(productsTable)
+                .setTableItems(Inventory.getAllProducts())
+                .setSearchField(productSearch)
+                .setQueryAlgo(ProductUtils::searchProduct)
+                .decorate();
     }
 
     private void initButtons(){
         this.exitButton.setOnAction(event -> Platform.exit());
 
-        Function<ActionEvent, Consumer<Part>> goToPartAddForm = event -> part -> switchToView(Views.ADD_PART, Views.ADD_PART.getTitle(), event);
+        EventHandler<ActionEvent> goToPartAddForm = event -> switchToView(Views.ADD_PART, Views.ADD_PART.getTitle(), event);
         new TableButton.Decorator<Part>()
                 .setButton(partsAddButton)
                 .setTable(partsTable)
-                .setButtonAction(goToPartAddForm)
+                .setOnAction(goToPartAddForm)
                 .decorate();
 
         Function<ActionEvent, Consumer<Part>> goToPartModifyForm = event -> part -> {
@@ -85,7 +93,7 @@ public class Home implements Initializable {
         new TableButton.Decorator<Part>()
                 .setButton(partsModifyButton)
                 .setTable(partsTable)
-                .setButtonAction(goToPartModifyForm)
+                .setOnSelectedItemAction(goToPartModifyForm)
                 .decorate();
 
         Function<ActionEvent, Consumer<Part>> confirmThenDeletePart = event -> part -> {
@@ -98,25 +106,25 @@ public class Home implements Initializable {
         new TableButton.Decorator<Part>()
                 .setButton(partsDeleteButton)
                 .setTable(partsTable)
-                .setButtonAction(confirmThenDeletePart)
+                .setOnSelectedItemAction(confirmThenDeletePart)
                 .decorate();
 
-        Function<ActionEvent, Consumer<Product>> goToProductAddForm = event -> product -> switchToView(Views.ADD_PART, Views.ADD_PART.getTitle(), event);
+        EventHandler<ActionEvent> goToProductAddForm = event -> switchToView(Views.ADD_PRODUCT, Views.ADD_PRODUCT.getTitle(), event);
         new TableButton.Decorator<Product>()
-                .setButton(partsAddButton)
+                .setButton(productsAddButton)
                 .setTable(productsTable)
-                .setButtonAction(goToProductAddForm)
+                .setOnAction(goToProductAddForm)
                 .decorate();
 
         Function<ActionEvent, Consumer<Product>> goToProductModifyForm = event -> product -> {
             ProductModifyForm controller = new ProductModifyForm(product, productsTable.getSelectionModel().getSelectedIndex());
-            String title = String.join(" ", Views.MODIFY_PART.getTitle(), product.getName());
-            switchToView(Views.MODIFY_PART, title, event, controller);
+            String title = String.join(" ", Views.MODIFY_PRODUCT.getTitle(), product.getName());
+            switchToView(Views.MODIFY_PRODUCT, title, event, controller);
         };
         new TableButton.Decorator<Product>()
-                .setButton(partsModifyButton)
+                .setButton(productsModifyButton)
                 .setTable(productsTable)
-                .setButtonAction(goToProductModifyForm)
+                .setOnSelectedItemAction(goToProductModifyForm)
                 .decorate();
 
         Function<ActionEvent, Consumer<Product>> confirmThenDeleteProduct = event -> product -> {
@@ -129,7 +137,7 @@ public class Home implements Initializable {
         new TableButton.Decorator<Product>()
                 .setButton(productsDeleteButton)
                 .setTable(productsTable)
-                .setButtonAction(confirmThenDeleteProduct)
+                .setOnSelectedItemAction(confirmThenDeleteProduct)
                 .decorate();
     }
 //        List<TableButton<Part>> partTableButtons = List.of(

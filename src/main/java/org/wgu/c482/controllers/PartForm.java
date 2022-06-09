@@ -6,6 +6,8 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
+import org.wgu.c482.models.Part;
+import org.wgu.c482.views.tables.TableButton;
 import org.wgu.c482.views.textfields.BaseTextField;
 import org.wgu.c482.views.textfields.NumericTextField;
 import org.wgu.c482.views.textfields.BaseTextFieldList;
@@ -111,28 +113,44 @@ public abstract class PartForm implements Initializable {
         EventHandler<ActionEvent> savePartAndGoHome = event -> {
             try {
                 allFields.validateFields();
-                Map<String, String> part = generatePartFromFields();
-                formAction(part);
+                Map<String, Object> partDTO = generatePartDTO();
+                formAction(partDTO);
                 goHomeAction(event);
             } catch (IllegalArgumentException e){
-                e.printStackTrace();
                 allFields.invalidateField(e.getMessage());
                 showErrorDialog("Error", "Cannot add invalid part", e.getMessage());
             }
         };
-
         this.saveButton.setOnAction(savePartAndGoHome);
         this.cancelButton.setOnAction(goHome);
     }
 
-    protected Map<String, String> generatePartFromFields(){
-        Map<String, String> partDTO = new HashMap<>();
+//    protected Map<String, String> generatePartFromFields(){
+//        Map<String, String> partDTO = new HashMap<>();
+//
+//        allFields.getFields().forEach(field ->
+//                partDTO.put(field.getLabel(), field.getTextField().getText()));
+//
+//        return partDTO;
+//    }
 
-        allFields.getFields().forEach(field ->
-                partDTO.put(field.getLabel(), field.getTextField().getText()));
+    protected Map<String, Object> generatePartDTO(){
+        Map<String, Object> partDTO = new HashMap<>();
+
+        partDTO.put(nameLabel.getText(), nameField.getText());
+        partDTO.put(priceLabel.getText(), Double.parseDouble(priceField.getText()));
+        partDTO.put(stockLabel.getText(), Integer.parseInt(stockField.getText()));
+        partDTO.put(minLabel.getText(), Integer.parseInt(minField.getText()));
+        partDTO.put(maxLabel.getText(), Integer.parseInt(maxField.getText()));
+
+        String selectedToggle = (String) partsGroup.selectedToggleProperty().get().getUserData();
+        if(selectedToggle.equals(INHOUSE))
+            partDTO.put(machineCompanyLabel.getText(), Integer.parseInt(machineCompanyField.getText()));
+        else
+            partDTO.put(machineCompanyLabel.getText(), machineCompanyField.getText());
 
         return partDTO;
     }
 
-    protected abstract void formAction(Map<String, String> part);
+    protected abstract void formAction(Map<String, Object> partDTO);
 }

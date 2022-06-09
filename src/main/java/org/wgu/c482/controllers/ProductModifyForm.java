@@ -10,6 +10,7 @@ import org.wgu.c482.models.Product;
 
 import java.awt.*;
 import java.net.URL;
+import java.util.Map;
 import java.util.ResourceBundle;
 
 public class ProductModifyForm extends ProductForm{
@@ -41,7 +42,18 @@ public class ProductModifyForm extends ProductForm{
     }
 
     @Override
-    protected void formAction() {
-        Inventory.updateProduct(productIndex, productHelper.generateProduct(product.getId()));
+    protected void formAction(Map<String, Object> productDTO) {
+        Product updatedProduct = new Product(
+                product.getId(),
+                (String) productDTO.get(nameLabel.getText()),
+                (Double) productDTO.get(priceLabel.getText()),
+                (Integer) productDTO.get(stockLabel.getText()),
+                (Integer) productDTO.get(minLabel.getText()),
+                (Integer) productDTO.get(maxLabel.getText())
+        );
+
+        updatedProduct.getAllAssociatedParts().addAll(productParts);
+
+        Inventory.updateProduct(productIndex, updatedProduct);
     }
 }

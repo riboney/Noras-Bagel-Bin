@@ -42,12 +42,12 @@
                         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                      </rowConstraints>
                      <children>
-                        <Label style="-fx-text-fill: white; -fx-font-weight: bold;" text="ID" GridPane.rowIndex="1" />
-                        <Label style="-fx-text-fill: white; -fx-font-weight: bold;" text="Name" GridPane.rowIndex="2" />
-                        <Label style="-fx-text-fill: white; -fx-font-weight: bold;" text="Inv" GridPane.rowIndex="3" />
-                        <Label style="-fx-text-fill: white; -fx-font-weight: bold;" text="Price" GridPane.rowIndex="4" />
-                        <Label style="-fx-text-fill: white; -fx-font-weight: bold;" text="Max" GridPane.rowIndex="5" />
-                        <Label style="-fx-text-fill: white; -fx-font-weight: bold;" text="Min" GridPane.columnIndex="2" GridPane.rowIndex="5" />
+                        <Label fx:id="idLabel" style="-fx-text-fill: white; -fx-font-weight: bold;" text="ID" GridPane.rowIndex="1" />
+                        <Label fx:id="nameLabel" style="-fx-text-fill: white; -fx-font-weight: bold;" text="Name" GridPane.rowIndex="2" />
+                        <Label fx:id="stockLabel" style="-fx-text-fill: white; -fx-font-weight: bold;" text="Inv" GridPane.rowIndex="3" />
+                        <Label fx:id="priceLabel" style="-fx-text-fill: white; -fx-font-weight: bold;" text="Price" GridPane.rowIndex="4" />
+                        <Label fx:id="maxLabel" style="-fx-text-fill: white; -fx-font-weight: bold;" text="Max" GridPane.rowIndex="5" />
+                        <Label fx:id="minLabel" style="-fx-text-fill: white; -fx-font-weight: bold;" text="Min" GridPane.columnIndex="2" GridPane.rowIndex="5" />
                         <TextField fx:id="idField" disable="true" editable="false" promptText="Auto gen - Disabled" GridPane.columnIndex="1" GridPane.rowIndex="1">
                            <font>
                               <Font name="System Italic" size="12.0" />

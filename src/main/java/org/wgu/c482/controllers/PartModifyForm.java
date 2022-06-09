@@ -6,6 +6,7 @@ import org.wgu.c482.models.InHouse;
 import org.wgu.c482.models.Inventory;
 import org.wgu.c482.models.Outsourced;
 import org.wgu.c482.models.Part;
+import org.wgu.c482.utils.InventoryUtils;
 
 import java.net.URL;
 import java.util.Map;
@@ -49,23 +50,53 @@ public class PartModifyForm extends PartForm {
             this.machineCompanyField.setText(((Outsourced) part).getCompanyName());
     }
 
-    protected void formAction(Map<String, String> partDTO){
-        String selectedToggle = (String) partsGroup.selectedToggleProperty().get().getUserData();
+//    protected void formAction(Map<String, String> partDTO){
+//        String selectedToggle = (String) partsGroup.selectedToggleProperty().get().getUserData();
+//
+//        Part updatedPart;
+//        int id = part.getId();
+//        String name = partDTO.get(nameLabel.getText());
+//        double price = Double.parseDouble(partDTO.get(priceLabel.getText()));
+//        int stock = Integer.parseInt(partDTO.get(stockLabel.getText()));
+//        int min = Integer.parseInt(partDTO.get(minLabel.getText()));
+//        int max = Integer.parseInt(partDTO.get(maxLabel.getText()));
+//
+//        if(selectedToggle.equals(INHOUSE)){
+//            int machineId = Integer.parseInt(machineCompanyField.getText());
+//            updatedPart = new InHouse(id, name, price, stock, min, max, machineId);
+//        } else {
+//            String companyName = machineCompanyField.getText();
+//            updatedPart = new Outsourced(id, name, price, stock, min, max, companyName);
+//        }
+//
+//        Inventory.updatePart(partIndex, updatedPart);
+//    }
 
-        Part updatedPart;
-        int id = part.getId();
-        String name = partDTO.get(nameLabel.getText());
-        double price = Double.parseDouble(partDTO.get(priceLabel.getText()));
-        int stock = Integer.parseInt(partDTO.get(stockLabel.getText()));
-        int min = Integer.parseInt(partDTO.get(minLabel.getText()));
-        int max = Integer.parseInt(partDTO.get(maxLabel.getText()));
+    @Override
+    protected void formAction(Map<String, Object> partDTO){
+        String selectedToggle = (String) partsGroup.selectedToggleProperty().get().getUserData();
+        Part updatedPart = null;
 
         if(selectedToggle.equals(INHOUSE)){
-            int machineId = Integer.parseInt(machineCompanyField.getText());
-            updatedPart = new InHouse(id, name, price, stock, min, max, machineId);
+            updatedPart = new InHouse(
+                    part.getId(),
+                    (String) partDTO.get(nameLabel.getText()),
+                    (Double) partDTO.get(priceLabel.getText()),
+                    (Integer) partDTO.get(stockLabel.getText()),
+                    (Integer) partDTO.get(minLabel.getText()),
+                    (Integer) partDTO.get(maxLabel.getText()),
+                    (Integer) partDTO.get(machineCompanyLabel.getText())
+            );
         } else {
-            String companyName = machineCompanyField.getText();
-            updatedPart = new Outsourced(id, name, price, stock, min, max, companyName);
+            updatedPart = new Outsourced(
+                    part.getId(),
+                    (String) partDTO.get(nameLabel.getText()),
+                    (Double) partDTO.get(priceLabel.getText()),
+                    (Integer) partDTO.get(stockLabel.getText()),
+                    (Integer) partDTO.get(minLabel.getText()),
+                    (Integer) partDTO.get(maxLabel.getText()),
+                    (String) partDTO.get(machineCompanyLabel.getText())
+            );
         }
 
         Inventory.updatePart(partIndex, updatedPart);

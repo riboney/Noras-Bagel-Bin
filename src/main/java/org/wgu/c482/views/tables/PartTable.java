@@ -31,34 +31,41 @@ public class PartTable extends BaseTable<Part> {
         });
     }
 
-    public static class Decorator {
-        private TableView<Part> table;
-        private ObservableList<Part> tableItems;
-        private TextField searchField;
-        private Function<String, ObservableList<Part>> queryAlgo;
-
-        public Decorator setTable(TableView<Part> table) {
-            this.table = table;
-            return this;
-        }
-
-        public Decorator setTableItems(ObservableList<Part> tableItems) {
-            this.tableItems = tableItems;
-            return this;
-        }
-
-        public Decorator setSearchField(TextField searchField) {
-            this.searchField = searchField;
-            return this;
-        }
-
-        public Decorator setQueryAlgo(Function<String, ObservableList<Part>> queryAlgo) {
-            this.queryAlgo = queryAlgo;
-            return this;
-        }
-
-        public PartTable decorate() {
+    public static class Decorator extends BaseTable.Decorator<Part>{
+        @Override
+        public BaseTable<Part> decorate(){
             return new PartTable(table, tableItems, searchField, queryAlgo);
         }
     }
+
+//    public static class Decorator {
+//        private TableView<Part> table;
+//        private ObservableList<Part> tableItems;
+//        private TextField searchField;
+//        private Function<String, ObservableList<Part>> queryAlgo;
+//
+//        public Decorator setTable(TableView<Part> table) {
+//            this.table = table;
+//            return this;
+//        }
+//
+//        public Decorator setTableItems(ObservableList<Part> tableItems) {
+//            this.tableItems = tableItems;
+//            return this;
+//        }
+//
+//        public Decorator setSearchField(TextField searchField) {
+//            this.searchField = searchField;
+//            return this;
+//        }
+//
+//        public Decorator setQueryAlgo(Function<String, ObservableList<Part>> queryAlgo) {
+//            this.queryAlgo = queryAlgo;
+//            return this;
+//        }
+//
+//        public PartTable decorate() {
+//            return new PartTable(table, tableItems, searchField, queryAlgo);
+//        }
+//    }
 }

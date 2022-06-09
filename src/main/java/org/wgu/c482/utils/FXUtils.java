@@ -105,7 +105,7 @@ public class FXUtils {
 //                currentScene.addEventFilter(MouseEvent.MOUSE_CLICKED, deselectRowItem(parent));
 //            });
 //        }
-
+//
 // src: https://stackoverflow.com/a/41908580/12369650
 //        private static javafx.event.EventHandler<MouseEvent> deselectRowItem(Parent parent) {
 //
