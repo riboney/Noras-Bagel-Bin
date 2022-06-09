@@ -48,7 +48,7 @@ public abstract class BaseTable<T> {
                 else if(!queryResults.isEmpty())
                     displaySearch(queryResults);
                 else
-                    failSearch();
+                    failSearch(query);
             }
         };
 
@@ -68,8 +68,8 @@ public abstract class BaseTable<T> {
         table.setItems(tableItems);
     }
 
-    private void failSearch(){
-        tableSearch.isInvalid(true);
+    private void failSearch(String query){
+        tableSearch.isInvalid(true, query);
         table.setItems(tableItems);
     }
 

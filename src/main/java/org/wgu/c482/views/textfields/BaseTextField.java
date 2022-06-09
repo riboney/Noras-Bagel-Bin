@@ -2,26 +2,35 @@ package org.wgu.c482.views.textfields;
 
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
+import javafx.beans.property.StringProperty;
 import javafx.scene.control.TextField;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.function.Consumer;
 
 import static org.wgu.c482.views.Borders.defaultBorder;
 import static org.wgu.c482.views.Borders.errorBorder;
+import static org.wgu.c482.views.Dialogs.showErrorDialog;
 
 public class BaseTextField {
 
     private String label;
     private TextField textField;
     private final BooleanProperty invalidStatus;
+    private Optional<String> invalidStatusMessage;
     private final List<Consumer<String>> validators;
 
     {
         invalidStatus = new SimpleBooleanProperty();
         invalidStatus.addListener((obs, oldV, newV) -> {
-            if(newV) this.textField.setBorder(errorBorder);
+            if(newV) {
+                this.textField.setBorder(errorBorder);
+                invalidStatusMessage.ifPresent(msg -> showErrorDialog("Failed search",
+                                                                    "No results found for \"" + msg + "\"",
+                                                                    "Please try again!"));
+            }
             else this.textField.setBorder(defaultBorder);
         });
 
@@ -38,6 +47,7 @@ public class BaseTextField {
     public BaseTextField(String label, TextField textField) {
         this.label = label;
         this.textField = textField;
+        invalidStatusMessage = Optional.empty();
         decorate();
     }
 
@@ -59,6 +69,11 @@ public class BaseTextField {
     }
 
     public final void isInvalid(boolean isInvalid){
+        invalidStatus.set(isInvalid);
+    }
+
+    public final void isInvalid(boolean isInvalid, String errorMessage){
+        invalidStatusMessage = Optional.ofNullable(errorMessage);
         invalidStatus.set(isInvalid);
     }
 
