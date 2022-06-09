@@ -11,6 +11,7 @@ import java.util.function.Function;
 
 import static org.wgu.c482.views.Dialogs.invalidActionDialog;
 
+/** Button decorator for table operations */
 public class TableButton<T> {
     private final Button button;
     private final TableView<T> table;
@@ -27,14 +28,6 @@ public class TableButton<T> {
         initOnAction();
     }
 
-//    public void onAction(Consumer<T> buttonAction){
-//        button.setOnAction(event -> {
-//            Optional<T> selectedTableItem = getSelectedTableItem();
-//
-//            selectedTableItem.ifPresentOrElse(buttonAction, noTableItemSelectedError);
-//        });
-//    }
-
     private void initOnAction(){
         if(this.onSelectedItemAction == null)
             button.setOnAction(onAction);
@@ -50,6 +43,7 @@ public class TableButton<T> {
         return Optional.ofNullable(table.getSelectionModel().getSelectedItem());
     }
 
+    /** TableButton Builder */
     public static class Decorator<T>{
         private Button button;
         private TableView<T> table;

@@ -14,6 +14,7 @@ import static org.wgu.c482.views.Borders.defaultBorder;
 import static org.wgu.c482.views.Borders.errorBorder;
 import static org.wgu.c482.views.Dialogs.showErrorDialog;
 
+/** TextField decorator for validation checks */
 public class BaseTextField {
 
     private String label;

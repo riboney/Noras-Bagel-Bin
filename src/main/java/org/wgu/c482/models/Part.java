@@ -3,7 +3,7 @@ package org.wgu.c482.models; /**
  */
 
 /**
- *
+ * Part abstract model
  * @author Place Your Name Here
  */
 public abstract class Part {

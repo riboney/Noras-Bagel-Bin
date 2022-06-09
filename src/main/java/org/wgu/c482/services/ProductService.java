@@ -13,6 +13,7 @@ import static org.wgu.c482.models.Inventory.getAllProducts;
 import static org.wgu.c482.utils.InvUtils.findAnyByCondition;
 import static org.wgu.c482.utils.InvUtils.isInteger;
 
+/** Business logic for Product */
 public class ProductService {
     public static ObservableList<Product> searchProduct(String query){
         if(query.isEmpty() || query.isBlank())
@@ -39,6 +40,7 @@ public class ProductService {
         return findAnyByCondition(getAllProducts(), p -> p.getName().toLowerCase().startsWith(query));
     }
 
+    /** Product Builder */
     public static class Builder{
         private Integer id;
         private String name;

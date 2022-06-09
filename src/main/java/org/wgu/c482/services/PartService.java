@@ -6,7 +6,6 @@ import org.wgu.c482.models.InHouse;
 import org.wgu.c482.models.Inventory;
 import org.wgu.c482.models.Outsourced;
 import org.wgu.c482.models.Part;
-import org.wgu.c482.utils.InvUtils;
 
 import java.util.List;
 import java.util.Optional;
@@ -16,6 +15,7 @@ import static org.wgu.c482.models.Inventory.getAllParts;
 import static org.wgu.c482.utils.InvUtils.findAnyByCondition;
 import static org.wgu.c482.utils.InvUtils.isInteger;
 
+/** Business logic for Part */
 public class PartService {
     public static ObservableList<Part> searchPart(String query){
 
@@ -43,6 +43,7 @@ public class PartService {
         return findAnyByCondition(getAllParts(), p -> p.getName().toLowerCase().startsWith(query));
     }
 
+    /** Part Builder */
     public static class Builder{
         private Integer id;
         private String name;

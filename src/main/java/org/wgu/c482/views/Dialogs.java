@@ -4,6 +4,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.stage.Stage;
 
+/** Customized dialog Boxes for application */
 public class Dialogs {
 
     public static Stage appStage;

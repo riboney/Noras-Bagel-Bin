@@ -12,6 +12,7 @@ import org.wgu.c482.views.Scenes;
 
 import java.io.IOException;
 
+/** Helper methods for loading FXML files and scenes */
 public class FXUtils {
     private static final double WIDTH = 1200;
     private static final double LENGTH = 500;

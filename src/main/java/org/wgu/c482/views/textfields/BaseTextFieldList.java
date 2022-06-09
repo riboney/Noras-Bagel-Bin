@@ -2,6 +2,7 @@ package org.wgu.c482.views.textfields;
 
 import java.util.List;
 
+/** Collection of BaseTextField objects for multiple validation checks */
 public class BaseTextFieldList {
     private final List<BaseTextField> fields;
 

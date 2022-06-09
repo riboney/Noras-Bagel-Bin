@@ -8,6 +8,7 @@ import org.wgu.c482.models.Part;
 import java.text.NumberFormat;
 import java.util.function.Function;
 
+/** Table decorator for Part*/
 public class PartTable extends BaseTable<Part> {
 
     private PartTable(TableView<Part> table, ObservableList<Part> tableItems, TextField searchField, Function<String, ObservableList<Part>> queryAlgo) {
@@ -31,6 +32,7 @@ public class PartTable extends BaseTable<Part> {
         });
     }
 
+    /** PartTable Builder */
     public static class Decorator extends BaseTable.Decorator<Part>{
         @Override
         public BaseTable<Part> decorate(){

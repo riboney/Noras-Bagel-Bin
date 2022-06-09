@@ -16,6 +16,7 @@ import java.util.List;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
+/** Decorates Stage with icon and global event handlers */
 public class Stages {
     private final Stage stage;
 

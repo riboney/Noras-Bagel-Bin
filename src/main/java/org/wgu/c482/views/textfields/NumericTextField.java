@@ -4,6 +4,7 @@ import javafx.scene.control.TextField;
 
 import java.util.function.Consumer;
 
+/** TextField decorator for numeric validation checks */
 public class NumericTextField extends BaseTextField {
     public NumericTextField(String label, TextField textField){
         super(label, textField);

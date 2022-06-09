@@ -10,6 +10,7 @@ import java.net.URL;
 import java.util.Map;
 import java.util.ResourceBundle;
 
+/** FXML controller for Product modify screen */
 public class ProductModifyForm extends ProductForm{
 
     @FXML TextField idField;

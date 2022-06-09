@@ -6,6 +6,7 @@ import org.wgu.c482.services.ProductService;
 
 import java.util.Map;
 
+/** FXML controller for Product add screen */
 public class ProductAddForm extends ProductForm {
 
     @Override

@@ -12,6 +12,7 @@ import java.net.URL;
 import java.util.Map;
 import java.util.ResourceBundle;
 
+/** FXML controller for Part modify screen */
 public class PartModifyForm extends PartForm {
 
     @FXML TextField idField;

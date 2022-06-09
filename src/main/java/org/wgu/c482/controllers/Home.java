@@ -26,6 +26,7 @@ import static org.wgu.c482.views.Dialogs.showConfirmDialog;
 import static org.wgu.c482.views.Dialogs.showErrorDialog;
 
 
+/** FXML controller for first screen */
 public class Home implements Initializable {
     @FXML Button exitButton;
     @FXML TextField partSearch;

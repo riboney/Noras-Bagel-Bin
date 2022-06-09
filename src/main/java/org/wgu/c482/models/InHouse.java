@@ -1,5 +1,6 @@
 package org.wgu.c482.models;
 
+/** InHouse part model */
 public class InHouse extends Part{
 
     private int machineId;

@@ -17,11 +17,24 @@ import java.util.List;
 
 import static org.wgu.c482.utils.FileUtils.getURLPath;
 
+/** Initializes and starts JavaFX application
+ * <p><b>
+ * Location to JavaDoc folder is in the root directory of the project
+ * </b></p>
+ *
+ *  <p>
+ *      <b>RUNTIME ERROR:</b> I had an error with loading the FXML files in the resources folder.
+ *      I fixed it by using Java Class, URL, and Paths classes to obtain the correct, relative file paths for the FXML files
+ *  </p>
+ *   <p>
+ *      <b>FUTURE ENHANCEMENT:</b> One feature I would add is the functionality of changing the UI theme to dark or light modes with a button
+ *  </p>
+ */
 public class Main extends Application {
-    public static int nextPartId;
-    public static int nextProductId;
+    public static int nextPartId = 1;
+    public static int nextProductId = 1;
     public static void main(String[] args) {
-        initData();
+        // initData();
         launch();
     }
 
@@ -37,15 +50,15 @@ public class Main extends Application {
                 new Product('2', "Tricycle", 99.99, 3, 1, 10)
         );
 
-        initialParts.stream().forEach(part -> Inventory.addPart(part));
-        initialProducts.stream().forEach(product -> Inventory.addProduct(product));
+        initialParts.forEach(Inventory::addPart);
+        initialProducts.forEach(Inventory::addProduct);
 
         nextPartId = Inventory.getAllParts().get(Inventory.getAllParts().size() - 1).getId() + 1;
         nextProductId = Inventory.getAllProducts().get(Inventory.getAllProducts().size() - 1).getId() + 1;
     }
 
     @Override
-    public void start(Stage stage) throws Exception {
+    public void start(Stage stage) {
 
         initStage(stage);
         Dialogs.appStage = stage;

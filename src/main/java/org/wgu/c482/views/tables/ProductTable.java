@@ -6,12 +6,12 @@ import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
-import org.wgu.c482.models.Part;
 import org.wgu.c482.models.Product;
 
 import java.text.NumberFormat;
 import java.util.function.Function;
 
+/** Table decorator for Product*/
 public class ProductTable extends BaseTable<Product> {
 
     private ProductTable(TableView<Product> table, ObservableList<Product> tableItems, TextField searchField, Function<String, ObservableList<Product>> queryAlgo) {
@@ -35,6 +35,7 @@ public class ProductTable extends BaseTable<Product> {
         });
     }
 
+    /** ProductTable Builder */
     public static class Decorator extends BaseTable.Decorator<Product>{
         @Override
         public BaseTable<Product> decorate(){

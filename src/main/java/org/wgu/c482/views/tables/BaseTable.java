@@ -6,13 +6,13 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
-import org.wgu.c482.models.Part;
 import org.wgu.c482.views.textfields.BaseTextField;
 
 import java.util.function.Function;
 
 import static org.wgu.c482.utils.InvUtils.isInteger;
 
+/** Table decorator for initializing Inventory data and search functionality */
 public abstract class BaseTable<T> {
     protected final TableView<T> table;
     protected final ObservableList<T> tableItems;
@@ -78,6 +78,7 @@ public abstract class BaseTable<T> {
         table.setItems(results);
     }
 
+    /** BaseTable Builder */
     public static class Decorator<T> {
         protected TableView<T> table;
         protected ObservableList<T> tableItems;

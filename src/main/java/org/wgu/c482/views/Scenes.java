@@ -6,6 +6,7 @@ import java.nio.file.Paths;
 
 import static org.wgu.c482.utils.FileUtils.getURLPath;
 
+/** Window titles and FXML file paths for Scenes */
 public enum Scenes {
     HOME("home", "Home"),
     ADD_PART("partAddForm", "Add New Part"),

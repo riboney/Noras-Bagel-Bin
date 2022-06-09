@@ -25,6 +25,7 @@ import java.util.function.Function;
 import static org.wgu.c482.utils.FXUtils.switchToHome;
 import static org.wgu.c482.views.Dialogs.*;
 
+/** Abstract FXML controller for Product */
 public abstract class ProductForm implements Initializable {
 
     @FXML Label nameLabel;

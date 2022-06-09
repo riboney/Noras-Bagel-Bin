@@ -1,5 +1,6 @@
 package org.wgu.c482.models;
 
+/** Outsourced part model */
 public class Outsourced extends Part{
 
     private String companyName;

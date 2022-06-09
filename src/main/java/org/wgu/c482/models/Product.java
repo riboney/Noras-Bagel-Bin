@@ -3,6 +3,7 @@ package org.wgu.c482.models;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
+/** Product model */
 public class Product {
 
     private ObservableList<Part> associatedParts;

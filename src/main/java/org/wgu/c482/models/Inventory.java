@@ -7,6 +7,7 @@ import java.util.Optional;
 
 import static org.wgu.c482.utils.InvUtils.*;
 
+/** Inventory model */
 public class Inventory {
 
     private static ObservableList<Part> allParts = FXCollections.observableArrayList();

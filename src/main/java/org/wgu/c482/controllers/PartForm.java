@@ -17,6 +17,7 @@ import java.util.*;
 import static org.wgu.c482.utils.FXUtils.switchToHome;
 import static org.wgu.c482.views.Dialogs.showErrorDialog;
 
+/** Abstract FXML controller for Part */
 public abstract class PartForm implements Initializable {
     @FXML Label nameLabel;
     @FXML Label stockLabel;

@@ -5,6 +5,7 @@ import java.util.Optional;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
+/** Helper methods for application business logic */
 public class InvUtils {
 
     public static <T> Optional<T> findOneByCondition(List<T> array, Predicate<T> condition) {

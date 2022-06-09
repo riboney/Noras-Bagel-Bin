@@ -5,6 +5,7 @@ import org.wgu.c482.services.PartService;
 
 import java.util.Map;
 
+/** FXML controller for Part add screen */
 public class PartAddForm extends PartForm {
     @Override
     protected void formAction(Map<String, Object> partDTO){
