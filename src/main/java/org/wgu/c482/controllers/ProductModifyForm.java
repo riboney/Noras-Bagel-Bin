@@ -2,13 +2,10 @@ package org.wgu.c482.controllers;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
-import org.w3c.dom.Text;
-import org.wgu.c482.models.InHouse;
 import org.wgu.c482.models.Inventory;
-import org.wgu.c482.models.Outsourced;
 import org.wgu.c482.models.Product;
+import org.wgu.c482.services.ProductService;
 
-import java.awt.*;
 import java.net.URL;
 import java.util.Map;
 import java.util.ResourceBundle;
@@ -43,14 +40,14 @@ public class ProductModifyForm extends ProductForm{
 
     @Override
     protected void formAction(Map<String, Object> productDTO) {
-        Product updatedProduct = new Product(
-                product.getId(),
-                (String) productDTO.get(nameLabel.getText()),
-                (Double) productDTO.get(priceLabel.getText()),
-                (Integer) productDTO.get(stockLabel.getText()),
-                (Integer) productDTO.get(minLabel.getText()),
-                (Integer) productDTO.get(maxLabel.getText())
-        );
+        Product updatedProduct = new ProductService.Builder()
+                .setId(product.getId())
+                .setName((String) productDTO.get(nameLabel.getText()))
+                .setPrice((Double) productDTO.get(priceLabel.getText()))
+                .setStock((Integer) productDTO.get(stockLabel.getText()))
+                .setMin((Integer) productDTO.get(minLabel.getText()))
+                .setMax((Integer) productDTO.get(maxLabel.getText()))
+                .build();
 
         updatedProduct.getAllAssociatedParts().addAll(productParts);
 

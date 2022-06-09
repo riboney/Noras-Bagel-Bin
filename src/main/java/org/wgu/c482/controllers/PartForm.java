@@ -6,8 +6,7 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
-import org.wgu.c482.models.Part;
-import org.wgu.c482.views.tables.TableButton;
+import org.wgu.c482.utils.FXUtils;
 import org.wgu.c482.views.textfields.BaseTextField;
 import org.wgu.c482.views.textfields.NumericTextField;
 import org.wgu.c482.views.textfields.BaseTextFieldList;
@@ -15,19 +14,15 @@ import org.wgu.c482.views.textfields.BaseTextFieldList;
 import java.net.URL;
 import java.util.*;
 
-import static org.wgu.c482.utils.FXUtils.Button.goHomeAction;
-import static org.wgu.c482.utils.FXUtils.Button.goHome;
+import static org.wgu.c482.utils.FXUtils.switchToHome;
 import static org.wgu.c482.views.Dialogs.showErrorDialog;
 
 public abstract class PartForm implements Initializable {
-    @FXML RadioButton inHouseRadio;
-    @FXML RadioButton outsourcedRadio;
     @FXML Label nameLabel;
     @FXML Label stockLabel;
     @FXML Label priceLabel;
     @FXML Label maxLabel;
     @FXML Label minLabel;
-
     @FXML Label machineCompanyLabel;
     @FXML TextField nameField;
     @FXML TextField stockField;
@@ -35,9 +30,6 @@ public abstract class PartForm implements Initializable {
     @FXML TextField maxField;
     @FXML TextField minField;
     @FXML TextField machineCompanyField;
-    @FXML Button saveButton;
-    @FXML Button cancelButton;
-
     protected BaseTextField name;
     protected BaseTextField companyName;
     protected NumericTextField stock;
@@ -47,15 +39,18 @@ public abstract class PartForm implements Initializable {
     protected NumericTextField machineId;
     protected BaseTextFieldList allFields;
 
+    @FXML RadioButton inHouseRadio;
+    @FXML RadioButton outsourcedRadio;
     protected ToggleGroup partsGroup = new ToggleGroup();
-
     protected final String INHOUSE = "inhouse";
     protected final String OUTSOURCED = "outsourced";
+    @FXML Button saveButton;
+    @FXML Button cancelButton;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         initTextFields();
-        initRadioButtons();
+        initToggleButtons();
         initButtons();
     }
 
@@ -73,8 +68,8 @@ public abstract class PartForm implements Initializable {
          allFields = new BaseTextFieldList(list);
     }
 
-    public void initRadioButtons(){
-        ChangeListener<? super Toggle> changeLabelAndResetFieldsOnToggle = (observableValue, previousToggle, newToggle) -> {
+    public void initToggleButtons(){
+        ChangeListener<? super Toggle> onToggleChangeLabelAndFields = (obsValue, prevToggle, newToggle) -> {
             Optional<Toggle> toggle = Optional.ofNullable(newToggle);
 
             toggle.ifPresent(t -> {
@@ -97,8 +92,7 @@ public abstract class PartForm implements Initializable {
             });
         };
 
-        partsGroup.selectedToggleProperty().addListener(changeLabelAndResetFieldsOnToggle);
-
+        partsGroup.selectedToggleProperty().addListener(onToggleChangeLabelAndFields);
 
         inHouseRadio.setSelected(true);
         inHouseRadio.setUserData(INHOUSE);
@@ -115,24 +109,15 @@ public abstract class PartForm implements Initializable {
                 allFields.validateFields();
                 Map<String, Object> partDTO = generatePartDTO();
                 formAction(partDTO);
-                goHomeAction(event);
+                switchToHome(event);
             } catch (IllegalArgumentException e){
                 allFields.invalidateField(e.getMessage());
                 showErrorDialog("Error", "Cannot add invalid part", e.getMessage());
             }
         };
         this.saveButton.setOnAction(savePartAndGoHome);
-        this.cancelButton.setOnAction(goHome);
+        this.cancelButton.setOnAction(FXUtils::switchToHome);
     }
-
-//    protected Map<String, String> generatePartFromFields(){
-//        Map<String, String> partDTO = new HashMap<>();
-//
-//        allFields.getFields().forEach(field ->
-//                partDTO.put(field.getLabel(), field.getTextField().getText()));
-//
-//        return partDTO;
-//    }
 
     protected Map<String, Object> generatePartDTO(){
         Map<String, Object> partDTO = new HashMap<>();

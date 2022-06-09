@@ -2,11 +2,10 @@ package org.wgu.c482.models;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import org.wgu.c482.utils.InventoryUtils;
 
 import java.util.Optional;
 
-import static org.wgu.c482.utils.InventoryUtils.*;
+import static org.wgu.c482.utils.InvUtils.*;
 
 public class Inventory {
 

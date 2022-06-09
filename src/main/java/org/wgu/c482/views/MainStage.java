@@ -16,10 +16,10 @@ import java.util.List;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
-public class BaseStage {
+public class MainStage {
     private final Stage stage;
 
-    public BaseStage(Stage stage) {
+    public MainStage(Stage stage) {
         this.stage = stage;
     }
 

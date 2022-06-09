@@ -6,10 +6,8 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
-import org.wgu.c482.models.Part;
 import org.wgu.c482.views.textfields.BaseTextField;
 
-import java.util.List;
 import java.util.function.Function;
 
 public abstract class BaseTable<T> {
@@ -24,7 +22,7 @@ public abstract class BaseTable<T> {
 
         if(searchField != null){
             this.tableSearch = new BaseTextField("Table search", searchField);
-            setSearchAlgo(queryAlgo);
+            initSearchOperation(queryAlgo);
         }
     }
 
@@ -33,7 +31,7 @@ public abstract class BaseTable<T> {
     }
     protected abstract void initTableColumns();
 
-    protected void setSearchAlgo(Function<String, ObservableList<T>> queryAlgo){
+    protected void initSearchOperation(Function<String, ObservableList<T>> queryAlgo){
         EventHandler<KeyEvent> populateWithSearchResultsOnEnter = keyEvent -> {
             String query = tableSearch.getTextField().getText().toLowerCase();
             boolean queryIsEmpty = query.isEmpty() || query.isBlank();

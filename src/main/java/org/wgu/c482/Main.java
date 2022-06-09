@@ -6,9 +6,9 @@ import org.wgu.c482.models.InHouse;
 import org.wgu.c482.models.Inventory;
 import org.wgu.c482.models.Part;
 import org.wgu.c482.models.Product;
-import org.wgu.c482.utils.FXLoaderUtils;
-import org.wgu.c482.views.BaseStage;
-import org.wgu.c482.views.Views;
+import org.wgu.c482.utils.FXUtils;
+import org.wgu.c482.views.Dialogs;
+import org.wgu.c482.views.MainStage;
 
 import java.net.URL;
 import java.nio.file.Path;
@@ -18,8 +18,6 @@ import java.util.List;
 import static org.wgu.c482.utils.FileUtils.getURLPath;
 
 public class Main extends Application {
-    public static Stage globalStage;
-
     public static void main(String[] args) {
         initData();
         launch();
@@ -45,19 +43,19 @@ public class Main extends Application {
     public void start(Stage stage) throws Exception {
 
         initStage(stage);
-        globalStage = stage;
+        Dialogs.appStage = stage;
 
 //        stage.getIcons().add(new Image(iconURL.toString()));
 //        FXUtils.Table.registerTableEventHandlers(stage);
 
-        FXLoaderUtils.switchToView(Views.HOME, "Main Screen", stage);
+        FXUtils.switchToHome(stage);
     }
 
     public void initStage(Stage stage){
         Path pathToImgDir = Paths.get("..", "..", "..", "/img");
         URL iconURL = getURLPath(pathToImgDir, "wgu.jpg", getClass());
 
-        BaseStage stageDecorator = new BaseStage(stage);
+        MainStage stageDecorator = new MainStage(stage);
         stageDecorator.decorate(iconURL.toString());
     }
 }

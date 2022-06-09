@@ -2,10 +2,11 @@ package org.wgu.c482.views;
 
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
-
-import static org.wgu.c482.Main.globalStage;
+import javafx.stage.Stage;
 
 public class Dialogs {
+
+    public static Stage appStage;
     public static boolean showConfirmDialog(String title, String header, String content) {
         Alert alert = newDialog(Alert.AlertType.CONFIRMATION, title, header, content);
 
@@ -29,7 +30,7 @@ public class Dialogs {
     private static Alert newDialog(Alert.AlertType alertType, String title, String header, String content){
         Alert alert = new Alert(alertType);
 
-        alert.initOwner(globalStage);
+        alert.initOwner(appStage);
         alert.setTitle(title);
         alert.setHeaderText(header);
         alert.setContentText(content);
