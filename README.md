@@ -1,6 +1,6 @@
 # Software 1 JavaFX project
 
-*work-in-progress*
+*currently in the process of refactoring entire project from generic inventory management app to a bagel store sales management app*
 
 ## Scenario
 
